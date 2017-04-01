@@ -19,6 +19,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
+
 /**
  * Created by boxfox on 2017-04-01.
  */
@@ -31,12 +35,29 @@ public class SMSManager {
         this.context = context;
     }
 
-    public void sendSMS(final String phone, final String message) {
+    public void broadCast() {
+        RealmConfiguration realmConfig = new RealmConfiguration
+                .Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(realmConfig);
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Person> resultSet = realm.where(Person.class).findAll();
+        String location = "x : 123, y: 325";
+        for (Person person : resultSet) {
+            //sendSMS(person.getNumber(), person.getMessage(), location);
+        }
+    }
+
+    public void sendSMS(String phone, String message, String... args) {
+        for (String arg : args)
+            message += "\n" + arg;
         SmsManager mSmsManager = SmsManager.getDefault();
         mSmsManager.sendTextMessage(phone, null, message, null, null);
     }
 
-    private ArrayList<Person> getContactList() {
+    public List<Person> getContactList() {
+        if (phoneList != null) return phoneList;
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String[] projection = new String[]{
                 ContactsContract.CommonDataKinds.Phone.NUMBER,
@@ -51,7 +72,7 @@ public class SMSManager {
 
         if (contactCursor.moveToFirst()) {
             do {
-                String phonenumber = contactCursor.getString(1).replaceAll("-", "");
+                String phonenumber = contactCursor.getString(0).replaceAll("-", "");
                 if (phonenumber.length() == 10) {
                     phonenumber = phonenumber.substring(0, 3) + "-"
                             + phonenumber.substring(3, 6) + "-"
@@ -70,16 +91,17 @@ public class SMSManager {
             } while (contactCursor.moveToNext());
         }
 
+        phoneList = contactlist;
         return contactlist;
     }
 
-    public Person getPhoneList(String name) {
-        Person result = null;
+    public List<Person> getPhoneList(String name) {
+        List<Person> result = new ArrayList<Person>();
         if (phoneList == null)
-            phoneList = getContactList();
+            getContactList();
         for (Person person : phoneList) {
-            if (person.getName().equals(name))
-                result = person;
+            if (person.getName().contains(name))
+                result.add(person);
         }
         return result;
     }

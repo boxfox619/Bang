@@ -1,19 +1,25 @@
 package com.bang.bangapplication;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bang.bangapplication.sms.Person;
 import com.victor.loading.rotate.RotateLoading;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainActivity extends FIndDeviceActivity {
     private boolean isConnect;
@@ -32,6 +38,7 @@ public class MainActivity extends FIndDeviceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Realm.init(MainActivity.this);
         init();
         //new SMSManager(this).sendSMS("010-7350-7624", "~~");
     }
@@ -45,8 +52,6 @@ public class MainActivity extends FIndDeviceActivity {
         mainView = getLayoutInflater().inflate(R.layout.main_data_view, null);
         nonDataView = findViewById(R.id.nonDataView);
         mainContentView = (RelativeLayout) findViewById(R.id.mainRootView);
-        personAdaptor = new SmsDataAdaptor(((LinearLayout) findViewById(R.id.personListLayout)), getLayoutInflater());
-        personAdaptor.load();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -55,28 +60,10 @@ public class MainActivity extends FIndDeviceActivity {
                 if (!isConnect)
                     connecting();
                 else {
-
+                    showPersonManageDialog();
                 }
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_find) {
-            Intent _i = null;
-            _i = new Intent(MainActivity.this, FIndDeviceActivity.class);
-            startActivity(_i);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void setNonDataStatus(String text) {
@@ -103,8 +90,10 @@ public class MainActivity extends FIndDeviceActivity {
         mainContentView.addView(mainView);
         circle.animate().scaleX(originalScale);
         circle.animate().scaleY(originalScale);
-        fab.animate().translationY(-70);
+        fab.animate().translationY(-30);
         fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
+        personAdaptor = new SmsDataAdaptor(((LinearLayout) findViewById(R.id.personListLayout)), getLayoutInflater());
+        personAdaptor.load();
     }
 
     @Override
@@ -115,7 +104,7 @@ public class MainActivity extends FIndDeviceActivity {
     @Override
     public void onDisconnected() {
         if (!isConnect)
-            fab.animate().translationY(-70);
+            fab.animate().translationY(-30);
         isConnect = false;
         rotateLoading.stop();
         mainImageView.setImageDrawable(getResources().getDrawable(R.drawable.bluetooth));
@@ -125,4 +114,20 @@ public class MainActivity extends FIndDeviceActivity {
         circle.animate().scaleY(originalScale);
         setNonDataStatus("Need Connect");
     }
+
+    private void showPersonManageDialog() {
+        new PersonAddDialogBuilder(MainActivity.this, handler).build().show();
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case PersonAddDialogBuilder.ADD_PERSON:
+                    personAdaptor.savePerson((Person) msg.obj);
+                    break;
+            }
+        }
+    };
+
 }

@@ -35,6 +35,8 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bang.bangapplication.sms.SMSManager;
+
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BleService extends Service implements BluetoothAdapter.LeScanCallback {
     public static final String TAG = "BleService";
@@ -107,6 +109,7 @@ public class BleService extends Service implements BluetoothAdapter.LeScanCallba
             byte bytes[] = characteristic.getValue();
             if(bytes.length>0) {
                 Log.e(TAG, "onCharacteristicRead: " + bytes.length);
+                new SMSManager(getApplicationContext()).broadCast();
             }
         }
 

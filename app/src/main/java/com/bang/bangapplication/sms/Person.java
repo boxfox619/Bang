@@ -1,10 +1,12 @@
 package com.bang.bangapplication.sms;
 
+import io.realm.RealmObject;
+
 /**
  * Created by boxfox on 2017-04-01.
  */
 
-public class Person {
+public class Person extends RealmObject {
     private String number, name, message;
 
     public String getNumber() {
