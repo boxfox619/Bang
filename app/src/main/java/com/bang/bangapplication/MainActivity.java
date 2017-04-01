@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.victor.loading.rotate.RotateLoading;
 
-public class MainActivity extends ActionBarActivity {
-    private boolean isConnecting;
+public class MainActivity extends FIndDeviceActivity {
+    private boolean isConnect;
     private float originalScale;
     private RotateLoading rotateLoading;
     private View circle;
@@ -42,31 +42,21 @@ public class MainActivity extends ActionBarActivity {
         circle = findViewById(R.id.normal_cirlce);
         originalScale = circle.getScaleX();
 
-        nonDataView = getLayoutInflater().inflate(R.layout.non_data_view, null);
-        mainView = findViewById(R.id.mainView);
+        mainView = getLayoutInflater().inflate(R.layout.main_data_view, null);
+        nonDataView = findViewById(R.id.nonDataView);
         mainContentView = (RelativeLayout) findViewById(R.id.mainRootView);
-        personAdaptor = new SmsDataAdaptor(((LinearLayout)findViewById(R.id.personListLayout)), getLayoutInflater());
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
-        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor = new SmsDataAdaptor(((LinearLayout) findViewById(R.id.personListLayout)), getLayoutInflater());
+        personAdaptor.load();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isConnecting)
-                    success();
-                else
+                if (!isConnect)
                     connecting();
+                else {
+
+                }
             }
         });
     }
@@ -89,29 +79,50 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setNonDataStatus(String text){
-        ((TextView)nonDataView.findViewById(R.id.statusTextView)).setText(text);
+    private void setNonDataStatus(String text) {
+        ((TextView) nonDataView.findViewById(R.id.statusTextView)).setText(text);
     }
 
     private void connecting() {
-        isConnecting = true;
         rotateLoading.start();
         mainImageView.setImageDrawable(getResources().getDrawable(R.drawable.bluetooth));
-        mainContentView.removeView(mainView);
+        mainContentView.removeAllViews();
         mainContentView.addView(nonDataView);
+        fab.animate().translationY(500);
         setNonDataStatus("Connecting...");
         circle.animate().scaleX(0);
         circle.animate().scaleY(0);
+        startService();
     }
 
     private void success() {
-        isConnecting = false;
+        isConnect = true;
         rotateLoading.stop();
         mainImageView.setImageDrawable(getResources().getDrawable(R.drawable.check));
-        mainContentView.removeView(nonDataView);
+        mainContentView.removeAllViews();
         mainContentView.addView(mainView);
         circle.animate().scaleX(originalScale);
         circle.animate().scaleY(originalScale);
+        fab.animate().translationY(-70);
         fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
+    }
+
+    @Override
+    public void onConnected() {
+        success();
+    }
+
+    @Override
+    public void onDisconnected() {
+        if (!isConnect)
+            fab.animate().translationY(-70);
+        isConnect = false;
+        rotateLoading.stop();
+        mainImageView.setImageDrawable(getResources().getDrawable(R.drawable.bluetooth));
+        mainContentView.removeAllViews();
+        mainContentView.addView(nonDataView);
+        circle.animate().scaleX(originalScale);
+        circle.animate().scaleY(originalScale);
+        setNonDataStatus("Need Connect");
     }
 }

@@ -20,6 +20,9 @@ public class SmsDataAdaptor {
         this.inflater = inflater;
     }
 
+    public void load(){
+    }
+
     public Person createPerson(String name, String phone, String message) {
         Person person = new Person();
         person.setName(name);

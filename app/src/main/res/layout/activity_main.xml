@@ -53,7 +53,7 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/check" />
+                    android:src="@drawable/bluetooth" />
 
             </RelativeLayout>
 `
@@ -80,8 +80,8 @@
             sl:scale_width="100">
 
             <include
-                android:id="@+id/mainView"
-                layout="@layout/main_data_view" />
+                android:id="@+id/nonDataView"
+                layout="@layout/non_data_view" />
 
         </RelativeLayout>
 
@@ -96,5 +96,5 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_connect_bluetooth" />
 </RelativeLayout>

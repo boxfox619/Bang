@@ -21,6 +21,7 @@
         android:background="@drawable/border_left"
         android:orientation="vertical"
         android:id="@+id/linearLayout"></LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
