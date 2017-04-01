@@ -115,18 +115,7 @@ public class MainActivity extends FIndDeviceActivity {
     }
 
     private void showPersonManageDialog() {
-        new PersonAddDialogBuilder(MainActivity.this, handler).build().show();
+        new PersonAddDialogBuilder(MainActivity.this, personAdaptor).build().show();
     }
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case PersonAddDialogBuilder.ADD_PERSON:
-                    personAdaptor.savePerson((Person) msg.obj);
-                    break;
-            }
-        }
-    };
 
 }

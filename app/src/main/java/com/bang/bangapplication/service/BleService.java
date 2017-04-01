@@ -143,8 +143,9 @@ public class BleService extends Service implements BluetoothAdapter.LeScanCallba
                     BluetoothGattService blueService = mGatt.getService(UUID_BLUEINNO_PROFILE_SERVICE_UUID);
                     if (blueService == null) continue;
                     BluetoothGattCharacteristic characteristic = blueService.getCharacteristic(UUID_BLUEINNO_PROFILE_RECEIVE_UUIDD);
-                    mGatt.readCharacteristic(characteristic);
-
+                    try {
+                        mGatt.readCharacteristic(characteristic);
+                    }catch(Exception e){}
 
                     //mGatt.readRemoteRssi();
                 }

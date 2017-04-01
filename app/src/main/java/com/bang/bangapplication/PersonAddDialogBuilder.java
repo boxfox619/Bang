@@ -19,6 +19,9 @@ import com.bang.bangapplication.sms.SMSManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by boxfox on 2017-04-02.
  */
@@ -76,7 +79,7 @@ public class PersonAddDialogBuilder {
     }
 
 
-    private void createMessageInputLayout(final Person person) {
+    public void createMessageInputLayout(final Person person) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final View layout = inflater.inflate(R.layout.person_save_dialog, null);
         ((TextView) layout.findViewById(R.id.target)).setText(person.getName());
@@ -91,7 +94,15 @@ public class PersonAddDialogBuilder {
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                RealmConfiguration realmConfig = new RealmConfiguration
+                        .Builder()
+                        .deleteRealmIfMigrationNeeded()
+                        .build();
+                Realm.setDefaultConfiguration(realmConfig);
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
                 person.setMessage(((EditText) layout.findViewById(R.id.et_Message)).getText().toString());
+                realm.commitTransaction();
                 Message msg = Message.obtain();
                 msg.what = ADD_PERSON;
                 msg.obj = person;
