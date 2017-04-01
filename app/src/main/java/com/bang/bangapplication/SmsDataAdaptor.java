@@ -29,10 +29,11 @@ public class SmsDataAdaptor {
     }
 
     public void addPerson(Person person) {
-        View view = inflater.inflate(R.layout.message_item, layout);
+        View view = inflater.inflate(R.layout.message_item, null);
         ((TextView) view.findViewById(R.id.target)).setText(person.getName());
         ((TextView) view.findViewById(R.id.subInfo)).setText(person.getNumber());
         ((TextView) view.findViewById(R.id.content)).setText(person.getMessage());
+        layout.addView(view, 0);
     }
 
 }

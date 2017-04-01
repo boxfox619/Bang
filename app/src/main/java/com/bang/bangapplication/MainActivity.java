@@ -47,6 +47,17 @@ public class MainActivity extends ActionBarActivity {
         mainContentView = (RelativeLayout) findViewById(R.id.mainRootView);
         personAdaptor = new SmsDataAdaptor(((LinearLayout)findViewById(R.id.personListLayout)), getLayoutInflater());
         personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
+        personAdaptor.addPerson(personAdaptor.createPerson("엄마", "010-5555-5531", "엄마 살려줘!"));
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
