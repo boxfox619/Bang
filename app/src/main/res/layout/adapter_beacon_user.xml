@@ -1,0 +1,82 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_realtime_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:descendantFocusability="blocksDescendants" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:weightSum="100" >
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="100"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/adapter_beacon_user_title"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical|fill_vertical"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                 />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:orientation="horizontal" 
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/adapter_beacon_user_major"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical|fill_vertical"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                     />
+
+                <TextView
+                    android:id="@+id/adapter_beacon_user_minor"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical|fill_vertical"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                     />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/adapter_beacon_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical|fill_vertical"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                 />
+
+            <TextView
+                android:id="@+id/adapter_beacon_user_accuracy"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical|fill_vertical"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                 />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

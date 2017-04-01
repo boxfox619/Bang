@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Bang Application</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_find">탐색</string>
+    <string name="led_label">LED</string>
+    <string name="R_label">R</string>
+    <string name="G_label">G</string>
+    <string name="B_label">B</string>
+    <string name="servo_1">0</string>
+    <string name="servo_2">45</string>
+    <string name="servo_3">90</string>
+    <string name="servo_4">135</string>
+    <string name="servo_5">180</string>
+    <string name="servo_label">Servo</string>
+    <string name="ibeacon_1">UUID</string>
+    <string name="ibeacon_2">Major</string>
+    <string name="ibeacon_3">Minor</string>
+    <string name="ibeacon_4">Rssi</string>
+
+</resources>
