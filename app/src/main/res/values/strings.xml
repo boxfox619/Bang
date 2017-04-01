@@ -1,8 +1,5 @@
 <resources>
-    <string name="app_name">Bang Application</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Bang</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

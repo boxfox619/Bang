@@ -5,7 +5,7 @@ package com.bang.bangapplication.sms;
  */
 
 public class Person {
-    private String number, name;
+    private String number, name, message;
 
     public String getNumber() {
         return number;
@@ -21,5 +21,13 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

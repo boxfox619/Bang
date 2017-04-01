@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/dot"
+        android:layout_centerVertical="true"
+        android:id="@+id/view2">
+
+    </View>
+
+    <TextView
+        android:id="@+id/target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:text="Mother"
+        android:layout_marginLeft="38dp"
+        android:layout_marginStart="38dp"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:textColor="@color/colorAccent"
+        android:layout_above="@+id/view2"
+        android:layout_toRightOf="@+id/view2"
+        android:layout_toEndOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/subInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_alignBaseline="@+id/target"
+        android:layout_alignBottom="@+id/target"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/target"
+        android:layout_alignStart="@+id/target"
+        android:layout_below="@+id/view2"
+        android:textSize="17dp"
+        android:text="TextView" />
+
+
+</RelativeLayout>
