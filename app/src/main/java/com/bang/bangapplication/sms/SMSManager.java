@@ -1,13 +1,20 @@
 package com.bang.bangapplication.sms;
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.SmsManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +31,7 @@ public class SMSManager {
         this.context = context;
     }
 
-    public void sendSMS(String phone, String message) {
+    public void sendSMS(final String phone, final String message) {
         SmsManager mSmsManager = SmsManager.getDefault();
         mSmsManager.sendTextMessage(phone, null, message, null, null);
     }
@@ -68,10 +75,10 @@ public class SMSManager {
 
     public Person getPhoneList(String name) {
         Person result = null;
-        if(phoneList == null)
+        if (phoneList == null)
             phoneList = getContactList();
-        for(Person person : phoneList){
-            if(person.getName().equals(name))
+        for (Person person : phoneList) {
+            if (person.getName().equals(name))
                 result = person;
         }
         return result;
