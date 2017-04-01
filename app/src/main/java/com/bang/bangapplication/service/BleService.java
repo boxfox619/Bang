@@ -50,6 +50,7 @@ public class BleService extends Service implements BluetoothAdapter.LeScanCallba
     public static final int MSG_READ_RSSI = 12;
 
     private static final long SCAN_PERIOD = 5000;
+    private int prevSignal;
 
     public static final String KEY_MAC_ADDRESSES = "KEY_MAC_ADDRESSES";
 
@@ -107,8 +108,10 @@ public class BleService extends Service implements BluetoothAdapter.LeScanCallba
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
             byte bytes[] = characteristic.getValue();
-            if(bytes.length>0) {
-                Log.e(TAG, "onCharacteristicRead: " + bytes.length);
+            int result;
+            if (bytes.length > 0 && (result = ByteBuffer.wrap(bytes).getInt()) != prevSignal) {
+                prevSignal = result;
+                Log.e(TAG, "onCharacteristicRead: " + result);
                 new SMSManager(getApplicationContext()).broadCast();
             }
         }
@@ -141,7 +144,9 @@ public class BleService extends Service implements BluetoothAdapter.LeScanCallba
                     if (blueService == null) continue;
                     BluetoothGattCharacteristic characteristic = blueService.getCharacteristic(UUID_BLUEINNO_PROFILE_RECEIVE_UUIDD);
                     mGatt.readCharacteristic(characteristic);
-                    mGatt.readRemoteRssi();
+
+
+                    //mGatt.readRemoteRssi();
                 }
                 return null;
             }

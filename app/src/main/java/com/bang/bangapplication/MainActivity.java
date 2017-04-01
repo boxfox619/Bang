@@ -1,25 +1,22 @@
 package com.bang.bangapplication;
 
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bang.bangapplication.sms.LocationProvider;
 import com.bang.bangapplication.sms.Person;
 import com.victor.loading.rotate.RotateLoading;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class MainActivity extends FIndDeviceActivity {
     private boolean isConnect;
@@ -39,6 +36,7 @@ public class MainActivity extends FIndDeviceActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Realm.init(MainActivity.this);
+        LocationProvider locationProvider = LocationProvider.getInstance(MainActivity.this);
         init();
         //new SMSManager(this).sendSMS("010-7350-7624", "~~");
     }
@@ -112,6 +110,7 @@ public class MainActivity extends FIndDeviceActivity {
         mainContentView.addView(nonDataView);
         circle.animate().scaleX(originalScale);
         circle.animate().scaleY(originalScale);
+        fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_connect_bluetooth));
         setNonDataStatus("Need Connect");
     }
 

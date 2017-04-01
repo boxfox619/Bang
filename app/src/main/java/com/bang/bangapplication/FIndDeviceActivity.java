@@ -68,7 +68,9 @@ public abstract class FIndDeviceActivity extends ActionBarActivity {
 	
 	protected void startService(){
 		mMessenger = new Messenger(new IncomingHandler(this));
-		bindService(mServiceIntent, mConnection, BIND_AUTO_CREATE);
+		try {
+			bindService(mServiceIntent, mConnection, BIND_AUTO_CREATE);
+		}catch(Exception e){}
 	}
 
 	@Override

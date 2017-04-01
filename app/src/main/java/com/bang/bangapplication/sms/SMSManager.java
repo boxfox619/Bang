@@ -1,20 +1,13 @@
 package com.bang.bangapplication.sms;
 
-import android.Manifest;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.ContactsContract;
-import android.support.v4.app.ActivityCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +23,11 @@ import io.realm.RealmResults;
 public class SMSManager {
     private List<Person> phoneList;
     private Context context;
+    private LocationProvider provider;
 
     public SMSManager(Context context) {
         this.context = context;
+        this.provider = LocationProvider.getInstance(context);
     }
 
     public void broadCast() {
@@ -43,10 +38,21 @@ public class SMSManager {
         Realm.setDefaultConfiguration(realmConfig);
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Person> resultSet = realm.where(Person.class).findAll();
-        String location = "x : 123, y: 325";
-        for (Person person : resultSet) {
-            //sendSMS(person.getNumber(), person.getMessage(), location);
+        final List<String> numbers = new ArrayList<String>();
+        final List<String> messages = new ArrayList<String>();
+        for (Person person : resultSet){
+            numbers.add(person.getNumber());
+            messages.add(person.getMessage());
         }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String location = provider.getCurrentLocation();
+                for (int i = 0 ; i < numbers.size();i++) {
+                    sendSMS(numbers.get(i), messages.get(i), location);
+                }
+            }
+        }).start();
     }
 
     public void sendSMS(String phone, String message, String... args) {
