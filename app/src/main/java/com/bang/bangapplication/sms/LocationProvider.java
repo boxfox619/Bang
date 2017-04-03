@@ -71,6 +71,14 @@ public class LocationProvider implements LocationListener {
                 longitude = loc.getLongitude();
             }
         }
+        if (latitude == 0) {
+            Location loc = locationManager
+                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (loc != null) {
+                latitude = loc.getLatitude();
+                longitude = loc.getLongitude();
+            }
+        }
         String currentLocation = "위도:" + latitude + " 경도:" + longitude;
         String url = "https://apis.daum.net/local/geo/coord2addr?apikey=a46781c4a9b4ab4e6ade548e20c8efdf&longitude=" + longitude + "&latitude=" + latitude + "&format=fullname&output=json&inputCoordSystem=WGS84";
         try {
